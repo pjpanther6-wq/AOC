@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f183d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="AOC" />
+  <title>AOC Staff Checklist</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="logo.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <img src="logo.png" alt="Adelaide Outdoor Cinema logo" class="hero-logo" />
+      <div class="hero-copy">
+        <h1>AOC</h1>
+        <p>Movies Under The Stars</p>
+      </div>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme">🌙</button>
+    </header>
+
+    <main class="container">
+      <section id="start-screen" class="card active">
+        <div class="card-header">
+          <h2>Staff Checklist</h2>
+          <p>Enter the event details, then complete the checklist during setup, the movie, and pack up.</p>
+        </div>
+
+        <form id="details-form" class="details-grid">
+          <label>
+            Staff Name <span>*</span>
+            <input type="text" id="staffName" name="staffName" required placeholder="Enter staff name" />
+          </label>
+
+          <label>
+            Event Location <span>*</span>
+            <input type="text" id="eventLocation" name="eventLocation" required placeholder="Enter event location" />
+          </label>
+
+          <label>
+            Event Date <span>*</span>
+            <input type="date" id="eventDate" name="eventDate" required />
+          </label>
+
+          <label>
+            Manager Email
+            <input type="email" id="managerEmail" name="managerEmail" placeholder="Optional for email report" />
+          </label>
+
+          <button type="submit" class="primary-btn wide-btn">Start Checklist</button>
+        </form>
+
+        <div class="helper-box">
+          <strong>Works offline after first load.</strong>
+          <span>On Android, open in Chrome and add to the home screen. On iPhone, open in Safari and use Add to Home Screen.</span>
+        </div>
+      </section>
+
+      <section id="checklist-screen" class="hidden">
+        <div class="card">
+          <div class="top-bar">
+            <div>
+              <h2>Adelaide Outdoor Cinema</h2>
+              <p>Movies Under The Stars - Staff Checklist</p>
+            </div>
+            <div class="chip">AOC</div>
+          </div>
+
+          <div class="event-summary">
+            <div><strong>Staff:</strong> <span id="summaryStaff">-</span></div>
+            <div><strong>Location:</strong> <span id="summaryLocation">-</span></div>
+            <div><strong>Date:</strong> <span id="summaryDate">-</span></div>
+            <div><strong>Manager Email:</strong> <span id="summaryEmail">-</span></div>
+          </div>
+
+          <div class="progress-block">
+            <div class="progress-head">
+              <div class="progress-text"><span id="progressPercent">0%</span> Complete (<span id="progressCount">0</span> of <span id="progressTotal">35</span> tasks)</div>
+              <div class="status-pill" id="statusPill">In Progress</div>
+            </div>
+            <div class="progress-bar"><div id="progressFill"></div></div>
+          </div>
+
+          <div class="sticky-actions mobile-only">
+            <button id="expandAllBtn" class="secondary-btn" type="button">Expand All</button>
+            <button id="printBtnTop" class="secondary-btn" type="button">Export / Print</button>
+          </div>
+
+          <section class="phase">
+            <button class="phase-toggle" type="button" data-target="setupPhase">
+              <span>Setup</span>
+              <span class="toggle-indicator">−</span>
+            </button>
+            <div id="setupPhase" class="phase-content open">
+              <div id="setupTasks"></div>
+              <label class="notes-label">
+                Setup Notes &amp; Feedback
+                <textarea id="setupNotes" placeholder="Add any notes or feedback for the setup phase..."></textarea>
+              </label>
+            </div>
+          </section>
+
+          <section class="phase">
+            <button class="phase-toggle" type="button" data-target="moviePhase">
+              <span>Movie Begins</span>
+              <span class="toggle-indicator">−</span>
+            </button>
+            <div id="moviePhase" class="phase-content open">
+              <div id="movieTasks"></div>
+              <label class="notes-label">
+                Movie Notes &amp; Feedback
+                <textarea id="movieNotes" placeholder="Add any notes or feedback during the movie..."></textarea>
+              </label>
+            </div>
+          </section>
+
+          <section class="phase">
+            <button class="phase-toggle" type="button" data-target="packupPhase">
+              <span>Pack Up</span>
+              <span class="toggle-indicator">−</span>
+            </button>
+            <div id="packupPhase" class="phase-content open">
+              <div id="packupTasks"></div>
+              <label class="notes-label">
+                Pack Up Notes &amp; Feedback
+                <textarea id="packupNotes" placeholder="Add any notes or feedback for the pack up phase..."></textarea>
+              </label>
+            </div>
+          </section>
+
+          <section class="phase always-open signature-wrap">
+            <div class="signature-head">
+              <div>
+                <h3>Staff Sign-Off</h3>
+                <p>Add a signature before exporting or emailing the report.</p>
+              </div>
+              <button id="clearSignatureBtn" class="secondary-btn" type="button">Clear Signature</button>
+            </div>
+            <canvas id="signaturePad" width="1000" height="280" aria-label="Signature pad"></canvas>
+          </section>
+
+          <div class="footer-actions">
+            <button id="emailBtn" class="primary-btn" type="button">Email Report</button>
+            <button id="saveCompleteBtn" class="secondary-btn" type="button">Save Completed Record</button>
+            <button id="printBtn" class="secondary-btn" type="button">Export to PDF / Print</button>
+            <button id="resetBtn" class="danger-btn" type="button">New Checklist</button>
+          </div>
+        </div>
+
+        <div class="card dashboard-card">
+          <div class="dashboard-head">
+            <div>
+              <h2>Local Dashboard</h2>
+              <p>Saved completed checklists on this device.</p>
+            </div>
+            <button id="clearHistoryBtn" class="secondary-btn" type="button">Clear Saved Records</button>
+          </div>
+          <div id="historyEmpty" class="history-empty">No completed records saved yet.</div>
+          <div id="historyList" class="history-list"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

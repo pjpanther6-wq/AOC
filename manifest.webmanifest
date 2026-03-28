@@ -1,0 +1,16 @@
+{
+  "name": "AOC Staff Checklist",
+  "short_name": "AOC",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0f183d",
+  "theme_color": "#0f183d",
+  "description": "Adelaide Outdoor Cinema mobile checklist for staff events.",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
